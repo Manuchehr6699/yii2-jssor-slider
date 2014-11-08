@@ -1,20 +1,19 @@
 {
-    "name": "claudejanz/jquery-slider",
-    "description": "forked from jssor/jquery-slider add composer file and yii2 widgets",
+    "name": "kmergen/yii2-jssor-slider",
+    "description": "forked from jssor slider to use the jssor Slider as widget in Yii2",
+     "keywords": ["yii", "yii2", "extension", "widget", "slider"],
     "authors": [
         {
-            "name": "Claude Janz",
-            "email": "claudejanz@gmail.com"
+            "name": "Klaus Mergen",
+            "email": "klaus.mergen@web.de"
         }
     ],
     "autoload": {
         "psr-4": {
-            "claudejanz\\jquerySlider\\widgets\\": "widgets"
+            "kmergen\\jssorSlider\\": ""
         }
     },
     "require": {
         "yiisoft/yii2": "*"
     }
-    
-    
 }
