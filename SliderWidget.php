@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @copyright Copyright &copy; Klaus Mergen, 2014
+ * @package yii2-widgets
+ * @version 1.1.0
+ */
+
 namespace kmergen\jssorSlider;
 
 use yii\helpers\Html;
@@ -7,9 +13,10 @@ use yii\helpers\Json;
 use yii\base\Widget;
 
 /**
- * Class SliderBasic
+ * Asset bundle for Slider Widget
  *
- * @author Claude Janz <claudejanz@gmail.com> 
+ * @author Klaus Mergen <klaus.mergen@web.de>
+ * @since 1.0
  */
 class SliderWidget extends Widget
 {

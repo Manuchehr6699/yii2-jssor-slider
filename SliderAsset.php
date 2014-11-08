@@ -18,7 +18,7 @@ use yii\web\AssetBundle;
  */
 class SliderAsset extends AssetBundle {
 
-    public $sourcePath = '@vendor/claudejanz/jquery-slider/js';
+    
     public $js = [
       'jssor.slider.mini.js'
     ];
