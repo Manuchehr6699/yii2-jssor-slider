@@ -13,7 +13,7 @@ use yii\helpers\Json;
 use yii\base\Widget;
 
 /**
- * Asset bundle for Slider Widget
+ * Slider Widget
  *
  * @author Klaus Mergen <klaus.mergen@web.de>
  * @since 1.0
