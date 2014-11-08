@@ -1,0 +1,20 @@
+{
+    "name": "claudejanz/jquery-slider",
+    "description": "forked from jssor/jquery-slider add composer file and yii2 widgets",
+    "authors": [
+        {
+            "name": "Claude Janz",
+            "email": "claudejanz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "claudejanz\\jquerySlider\\widgets\\": "widgets"
+        }
+    },
+    "require": {
+        "yiisoft/yii2": "*"
+    }
+    
+    
+}
