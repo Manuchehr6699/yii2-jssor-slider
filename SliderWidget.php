@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @copyright Copyright &copy; Klaus Mergen, 2014
  * @package yii2-widgets
@@ -23,6 +22,19 @@ class SliderWidget extends Widget
 
     public $margin_right_responsive = 30;
     public $responsive = true;
+    
+    
+    /**
+     * @var array the slider images.
+     * for example:
+     * $images = [
+     *      0 => ['uri' => 'images/bild1.jpg],
+     *      1 => ['uri' => 'images/bild2.jpg, alt => 'Das ist Bild 2', 'fid' => 123]
+     * ];
+     * The image array must have at least the uri key.
+     */
+    public $images = [];
+
 
     /**
      * @var array the HTML attributes for the div tag.
@@ -43,6 +55,10 @@ class SliderWidget extends Widget
         // open tag
         echo Html::beginTag('div', $this->options) . '
                 <!-- Slides Container -->';
+        
+        if ((!empty($this->images))) {
+            echo $this->renderImages();
+        }
     }
 
     public function run()
@@ -93,4 +109,12 @@ class SliderWidget extends Widget
         }
     }
 
+    /**
+     * Renders the images for this slider
+     * @param 
+     */
+    protected function renderImages()
+    {
+        
+    }
 }
