@@ -10,6 +10,7 @@ namespace kmergen\jssor;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\base\Widget;
+use yii\base\InvalidConfigException;
 
 /**
  * Slider Widget
@@ -70,53 +71,41 @@ class SliderWidget extends Widget
     protected $hasCaption;
 
     /**
-     * @var string|boolean $navigationSkin The navigation Skin This should be one of the following:
-     * 'thumbnail01' until 'thumbnail10'
-     * 'bullet01' until 'bullet10'
+     * @var string|boolean $navSkin The navigation Skin This should be one of the following:
+     * 't01' until 't10'
+     * 'b01' until 'b10'
      * If you set false no navigation will be applied to the slider.
      * 
      */
-    public $navigationSkin = 'thumbnail01';
+    public $navSkin;
 
     /**
      * @var string|boolean $arrowSkin The navigation Skin This should be one of the following:
-     * 'arrow01' until 'arrow10'
+     * 'a01' until 'a10'
      * If you set false no navigation will be applied to the slider.
      * 
      */
-    public $arrowSkin = 'arrow01';
+    public $arrowSkin;
 
     /**
-     * @var array $thumbnailSkins The available thumbnail skins.
+     * @var array $skins The available skins.
      */
-    protected $thumnailSkins = [
-        'thumbnail01' => [],
-        'thumbnail02' => [],
-        'thumbnail03' => [],
-        'thumbnail04' => [],
-        'thumbnail05' => [],
-    ];
-
-    /**
-     * @var array $bulletSkins The available bullet skins.
-     */
-    protected $bulletSkins = [
-        'bullet01' => [],
-        'bullet02' => [],
-        'bullet03' => [],
-        'bullet04' => [],
-        'bullet05' => [],
-    ];
-
-    /**
-     * @var array $arrowSkins The available arrow skins.
-     */
-    protected $arrowSkins = [
-        'arrow01' => [],
-        'arrow02' => [],
-        'arrow03' => [],
-        'arrow04' => [],
-        'arrow05' => [],
+    protected $skins = [
+        'a01' => [],
+        'a02' => [],
+        'a03' => [],
+        'a04' => [],
+        'a05' => [],
+        'b01' => [],
+        'b02' => [],
+        'b03' => [],
+        'b04' => [],
+        'b05' => [],
+        't01' => [],
+        't02' => [],
+        't03' => [],
+        't04' => [],
+        't05' => [],
     ];
 
     /**
@@ -158,20 +147,14 @@ class SliderWidget extends Widget
         $this->hasCaption = array_key_exists('$CaptionSliderOptions', $this->pluginOptions) ? true : false;
 
         if (static::$raw === false) {
-            $customCssClass = isset($this->containerOptions['class']) ? ' ' . $this->containerOptions['class'] : '';
-
-            //Set the css classes
-            $this->containerOptions = [];
-            $this->containerOptions['style'] = "width:{$this->sliderWidth}px; height:{$this->sliderHeight}px";
-            $this->containerOptions['class'] = "slider-container slider-container-{$this->id}$customCssClass";
+            $this->createSkin();
         }
-        
+
         $this->containerOptions['id'] = $this->getId();
 
         // open tag
         echo '<!-- Slider Container -->';
         echo Html::beginTag('div', $this->containerOptions);
-                
     }
 
     /**
@@ -267,6 +250,63 @@ class SliderWidget extends Widget
         return $this->render('imageGallery1', [
                 'images' => $this->images
         ]);
+    }
+
+    /**
+     * Do all important settings for the skin
+     */
+    protected function createSkin()
+    {
+        //Set slider container
+        $customCssClass = isset($this->containerOptions['class']) ? ' ' . $this->containerOptions['class'] : '';
+        $this->containerOptions = [];
+        $this->containerOptions['style'] = "width:{$this->sliderWidth}px; height:{$this->sliderHeight}px";
+        $this->containerOptions['class'] = "slider-container slider-container-{$this->id}$customCssClass";
+
+        //Set the arrow skin
+        if ($this->arrowSkin) {
+            try {
+                $aSkin = $this->skins[$this->arrowSkin];
+                if (!isset($this->pluginOptions['$ArrowNavigatorOptions'])) {
+                    $this->pluginOptions['$ArrowNavigatorOptions'] = [
+                        '$Class' => '$JssorArrowNavigator$',
+                        '$ChanceToShow' => 2,
+                        '$AutoCenter' => 2,
+                    ];
+                }
+            } catch (Exception $ex) {
+                throw new InvalidConfigException();
+            }
+        }
+        if ($this->navSkin) {
+            try {
+                $navSkin = $this->skins[$this->navSkin];
+                if ($this->navSkin[0] === 'b') {
+                    if (!isset($this->pluginOptions['$BulletNavigatorOptions'])) {
+                        $this->pluginOptions['$BulletNavigatorOptions'] = [
+                            '$Class' => '$JssorBulletNavigator$',
+                            '$ChanceToShow' => 2,
+                            '$AutoCenter' => 1,
+                            '$Steps' => 1, //[Optional] Steps to go for each navigation request, default value is 1
+                            '$Lanes' => 1, //[Optional] Specify lanes to arrange items, default value is 1
+                            '$SpacingX' => 10, //[Optional] Horizontal space between each item in pixel, default value is 0
+                            '$SpacingY' => 10, //[Optional] Vertical space between each item in pixel, default value is 0
+                            '$Orientation' => 1
+                        ];
+                    }
+                } elseif ($this->navSkin[0] === 'b') {
+                    if (!isset($this->pluginOptions['$ThumbnailNavigatorOptions'])) {
+                        $this->pluginOptions['$ThumbnailNavigatorOptions'] = [
+                            '$Class' => '$JssorThumbnailNavigator$',
+                            '$ChanceToShow' => 2,
+                            '$AutoCenter' => 3,
+                        ];
+                    }
+                }
+            } catch (Exception $ex) {
+                throw new InvalidConfigException();
+            }
+        }
     }
 
 }

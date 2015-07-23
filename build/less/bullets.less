@@ -1,44 +1,31 @@
 /*
-Styles for the bullets
+Bullet skins
+Author: Klaus Mergen
 */
-/* 
-    Created on : 11.11.2014, 15:43:41
-    Author     : Klaus Mergen
-*/
-/*
+
+   /* jssor slider bullet navigator skin 01 css */
+            /*
             .jssorb01 div           (normal)
             .jssorb01 div:hover     (normal mouseover)
             .jssorb01 .av           (active)
             .jssorb01 .av:hover     (active mouseover)
             .jssorb01 .dn           (mousedown)
-*/
-.jssorb01 div, .jssorb01 div:hover, .jssorb01 .av
-{
-    filter: alpha(opacity=70);
-    opacity: .7;
-    overflow:hidden;
-    cursor: pointer;
-    border: #000 1px solid;
-}
-.jssorb01 div { background-color: gray; }
-.jssorb01 div:hover, .jssorb01 .av:hover { background-color: #d3d3d3; }
-.jssorb01 .av { background-color: #fff; }
-.jssorb01 .dn, .jssorb01 .dn:hover { background-color: #555555; }
-
-/*
-         .jssorb02 div           (normal)
-         .jssorb02 div:hover     (normal mouseover)
-         .jssorb02 .av           (active)
-         .jssorb02 .av:hover     (active mouseover)
-         .jssorb02 .dn           (mousedown)
-*/
-.jssorb02 div, .jssorb02 div:hover, .jssorb02 .av
-{
-    background: url(../img/b02.png) no-repeat;
-    overflow:hidden;
-    cursor: pointer;
-}
-.jssorb02 div { background-position: -5px -5px; }
-.jssorb02 div:hover, .jssorb02 .av:hover { background-position: -35px -5px; }
-.jssorb02 .av { background-position: -65px -5px; }
-.jssorb02 .dn, .jssorb02 .dn:hover { background-position: -95px -5px; }
+            */
+            .jssorb01 {
+                position: absolute;
+            }
+            .jssorb01 div, .jssorb01 div:hover, .jssorb01 .av {
+                position: absolute;
+                /* size of bullet elment */
+                width: 12px;
+                height: 12px;
+                filter: alpha(opacity=70);
+                opacity: .7;
+                overflow: hidden;
+                cursor: pointer;
+                border: #000 1px solid;
+            }
+            .jssorb01 div { background-color: gray; }
+            .jssorb01 div:hover, .jssorb01 .av:hover { background-color: #d3d3d3; }
+            .jssorb01 .av { background-color: #fff; }
+            .jssorb01 .dn, .jssorb01 .dn:hover { background-color: #555555; }
