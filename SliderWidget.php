@@ -265,8 +265,7 @@ class SliderWidget extends Widget
 
         //Set the arrow skin
         if ($this->arrowSkin) {
-            try {
-                $aSkin = $this->skins[$this->arrowSkin];
+            if (array_key_exists($this->arrowSkin, $this->skins)) {
                 if (!isset($this->pluginOptions['$ArrowNavigatorOptions'])) {
                     $this->pluginOptions['$ArrowNavigatorOptions'] = [
                         '$Class' => '$JssorArrowNavigator$',
@@ -274,13 +273,14 @@ class SliderWidget extends Widget
                         '$AutoCenter' => 2,
                     ];
                 }
-            } catch (Exception $ex) {
+            } else {
                 throw new InvalidConfigException();
             }
         }
+
+
         if ($this->navSkin) {
-            try {
-                $navSkin = $this->skins[$this->navSkin];
+            if (array_key_exists($this->navSkin, $this->skins)) {
                 if ($this->navSkin[0] === 'b') {
                     if (!isset($this->pluginOptions['$BulletNavigatorOptions'])) {
                         $this->pluginOptions['$BulletNavigatorOptions'] = [
@@ -303,7 +303,7 @@ class SliderWidget extends Widget
                         ];
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 throw new InvalidConfigException();
             }
         }
