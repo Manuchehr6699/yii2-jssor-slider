@@ -1,12 +1,11 @@
 <?php
-
 /**
  * @copyright Copyright &copy; Klaus Mergen, 2014
  * @package yii2-widgets
  * @version 1.1.0
  */
 
-namespace kmergen\jssorSlider;
+namespace kmergen\jssor;
 
 use yii\web\AssetBundle;
 
@@ -16,20 +15,28 @@ use yii\web\AssetBundle;
  * @author Klaus Mergen <klaus.mergen@web.de>
  * @since 1.0
  */
-class SliderAsset extends AssetBundle {
+class SliderAsset extends AssetBundle
+{
 
-    
     public $js = [
-      'jssor.slider.mini.js'
+        //'js/jssor.slider.mini.js',
+        'js/jssor.js',
+        'js/jssor.slider.js'
+    ];
+    public $css = [
+        'css/slider.css',
+        'css/arrows.css',
+        'css/bullets.css',
+        'css/thumbnails.css'
     ];
     public $depends = [
         'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
-    
+
     public function init()
     {
-        $this->sourcePath = __DIR__ . '/js';
+        $this->sourcePath = __DIR__ . '/assets';
         parent::init();
     }
 

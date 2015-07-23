@@ -1,0 +1,67 @@
+/*
+Styles for the bullets
+*/
+/* 
+    Created on : 11.11.2014, 15:43:41
+    Author     : Klaus Mergen
+*/
+/*
+            .jssorb01 div           (normal)
+            .jssorb01 div:hover     (normal mouseover)
+            .jssorb01 .av           (active)
+            .jssorb01 .av:hover     (active mouseover)
+            .jssorb01 .dn           (mousedown)
+*/
+.jssorb01 div,
+.jssorb01 div:hover,
+.jssorb01 .av {
+  filter: alpha(opacity=70);
+  opacity: .7;
+  overflow: hidden;
+  cursor: pointer;
+  border: #000 1px solid;
+}
+.jssorb01 div {
+  background-color: gray;
+}
+.jssorb01 div:hover,
+.jssorb01 .av:hover {
+  background-color: #d3d3d3;
+}
+.jssorb01 .av {
+  background-color: #fff;
+}
+.jssorb01 .dn,
+.jssorb01 .dn:hover {
+  background-color: #555555;
+}
+/*
+         .jssorb02 div           (normal)
+         .jssorb02 div:hover     (normal mouseover)
+         .jssorb02 .av           (active)
+         .jssorb02 .av:hover     (active mouseover)
+         .jssorb02 .dn           (mousedown)
+*/
+.jssorb02 div,
+.jssorb02 div:hover,
+.jssorb02 .av {
+  background: url(../img/b02.png) no-repeat;
+  overflow: hidden;
+  cursor: pointer;
+}
+.jssorb02 div {
+  background-position: -5px -5px;
+}
+.jssorb02 div:hover,
+.jssorb02 .av:hover {
+  background-position: -35px -5px;
+}
+.jssorb02 .av {
+  background-position: -65px -5px;
+}
+.jssorb02 .dn,
+.jssorb02 .dn:hover {
+  background-position: -95px -5px;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJ1bGxldHMubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7OztBQWNBLFNBQVU7QUFBSyxTQUFVLElBQUc7QUFBUSxTQUFVO0VBRTFDLHlCQUFBO0VBQ0EsV0FBQTtFQUNBLGdCQUFBO0VBQ0EsZUFBQTtFQUNBLHNCQUFBOztBQUVKLFNBQVU7RUFBTSxzQkFBQTs7QUFDaEIsU0FBVSxJQUFHO0FBQVEsU0FBVSxJQUFHO0VBQVMseUJBQUE7O0FBQzNDLFNBQVU7RUFBTSxzQkFBQTs7QUFDaEIsU0FBVTtBQUFLLFNBQVUsSUFBRztFQUFTLHlCQUFBOzs7Ozs7Ozs7QUFTckMsU0FBVTtBQUFLLFNBQVUsSUFBRztBQUFRLFNBQVU7RUFFMUMseUNBQUE7RUFDQSxnQkFBQTtFQUNBLGVBQUE7O0FBRUosU0FBVTtFQUFNLDhCQUFBOztBQUNoQixTQUFVLElBQUc7QUFBUSxTQUFVLElBQUc7RUFBUywrQkFBQTs7QUFDM0MsU0FBVTtFQUFNLCtCQUFBOztBQUNoQixTQUFVO0FBQUssU0FBVSxJQUFHO0VBQVMsK0JBQUEiLCJmaWxlIjoiYnVsbGV0cy5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuU3R5bGVzIGZvciB0aGUgYnVsbGV0c1xuKi9cbi8qIFxuICAgIENyZWF0ZWQgb24gOiAxMS4xMS4yMDE0LCAxNTo0Mzo0MVxuICAgIEF1dGhvciAgICAgOiBLbGF1cyBNZXJnZW5cbiovXG4vKlxuICAgICAgICAgICAgLmpzc29yYjAxIGRpdiAgICAgICAgICAgKG5vcm1hbClcbiAgICAgICAgICAgIC5qc3NvcmIwMSBkaXY6aG92ZXIgICAgIChub3JtYWwgbW91c2VvdmVyKVxuICAgICAgICAgICAgLmpzc29yYjAxIC5hdiAgICAgICAgICAgKGFjdGl2ZSlcbiAgICAgICAgICAgIC5qc3NvcmIwMSAuYXY6aG92ZXIgICAgIChhY3RpdmUgbW91c2VvdmVyKVxuICAgICAgICAgICAgLmpzc29yYjAxIC5kbiAgICAgICAgICAgKG1vdXNlZG93bilcbiovXG4uanNzb3JiMDEgZGl2LCAuanNzb3JiMDEgZGl2OmhvdmVyLCAuanNzb3JiMDEgLmF2XG57XG4gICAgZmlsdGVyOiBhbHBoYShvcGFjaXR5PTcwKTtcbiAgICBvcGFjaXR5OiAuNztcbiAgICBvdmVyZmxvdzpoaWRkZW47XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGJvcmRlcjogIzAwMCAxcHggc29saWQ7XG59XG4uanNzb3JiMDEgZGl2IHsgYmFja2dyb3VuZC1jb2xvcjogZ3JheTsgfVxuLmpzc29yYjAxIGRpdjpob3ZlciwgLmpzc29yYjAxIC5hdjpob3ZlciB7IGJhY2tncm91bmQtY29sb3I6ICNkM2QzZDM7IH1cbi5qc3NvcmIwMSAuYXYgeyBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZmOyB9XG4uanNzb3JiMDEgLmRuLCAuanNzb3JiMDEgLmRuOmhvdmVyIHsgYmFja2dyb3VuZC1jb2xvcjogIzU1NTU1NTsgfVxuXG4vKlxuICAgICAgICAgLmpzc29yYjAyIGRpdiAgICAgICAgICAgKG5vcm1hbClcbiAgICAgICAgIC5qc3NvcmIwMiBkaXY6aG92ZXIgICAgIChub3JtYWwgbW91c2VvdmVyKVxuICAgICAgICAgLmpzc29yYjAyIC5hdiAgICAgICAgICAgKGFjdGl2ZSlcbiAgICAgICAgIC5qc3NvcmIwMiAuYXY6aG92ZXIgICAgIChhY3RpdmUgbW91c2VvdmVyKVxuICAgICAgICAgLmpzc29yYjAyIC5kbiAgICAgICAgICAgKG1vdXNlZG93bilcbiovXG4uanNzb3JiMDIgZGl2LCAuanNzb3JiMDIgZGl2OmhvdmVyLCAuanNzb3JiMDIgLmF2XG57XG4gICAgYmFja2dyb3VuZDogdXJsKC4uL2ltZy9iMDIucG5nKSBuby1yZXBlYXQ7XG4gICAgb3ZlcmZsb3c6aGlkZGVuO1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbn1cbi5qc3NvcmIwMiBkaXYgeyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiAtNXB4IC01cHg7IH1cbi5qc3NvcmIwMiBkaXY6aG92ZXIsIC5qc3NvcmIwMiAuYXY6aG92ZXIgeyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiAtMzVweCAtNXB4OyB9XG4uanNzb3JiMDIgLmF2IHsgYmFja2dyb3VuZC1wb3NpdGlvbjogLTY1cHggLTVweDsgfVxuLmpzc29yYjAyIC5kbiwgLmpzc29yYjAyIC5kbjpob3ZlciB7IGJhY2tncm91bmQtcG9zaXRpb246IC05NXB4IC01cHg7IH0iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0= */

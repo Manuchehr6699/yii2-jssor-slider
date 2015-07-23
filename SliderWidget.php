@@ -5,7 +5,7 @@
  * @version 1.1.0
  */
 
-namespace kmergen\jssorSlider;
+namespace kmergen\jssor;
 
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -20,78 +20,229 @@ use yii\base\Widget;
 class SliderWidget extends Widget
 {
 
-    public $margin_right_responsive = 30;
-    public $responsive = true;
-    
-    
     /**
-     * @var array the slider images.
-     * for example:
-     * $images = [
-     *      0 => ['uri' => 'images/bild1.jpg],
-     *      1 => ['uri' => 'images/bild2.jpg, alt => 'Das ist Bild 2', 'fid' => 123]
-     * ];
-     * The image array must have at least the uri key.
+     * @var array $images The images to show in the slider.
+     * 'images' => [
+     *    'uri' => 'images/bild1.jpg',
+     *    'uri' => 'images/bild2.jpg'
+     *  ];
      */
     public $images = [];
 
-
     /**
-     * @var array the HTML attributes for the div tag.
+     * @var boolean $responsive Show the slider responsive.
      */
-    public $options;
+    public $responsive = true;
 
     /**
-     * @var array options for Slider plugin
+     * @var array $sliderHeight The height of the slider container.
+     */
+    public $sliderWidth = 600;
+
+    /**
+     * @var array $sliderWidth The width of the slider container.
+     */
+    public $sliderHeight = 450;
+
+    /**
+     * @var array $captionTransitions The transitions how to animate a caption.
+     */
+    public $captionTransitions = '[{$Duration: 900, $Clip: 3, $Easing: $JssorEasing$.$EaseInOutCubic }]';
+
+    /**
+     * @var array $containerOptions The HTML attributes for the slider container div tag.
+     */
+    public $containerOptions;
+
+    /**
+     * @var array $pluginOptions The options for JssorSlider plugin see http://www.jssor.com/development/index.html.
      */
     public $pluginOptions = [];
 
+    /**
+     * @var string $js The javascript code which will be published.
+     */
+    protected $js = '';
+
+    /**
+     * @var boolean $hasCaption Wether this slider has captions
+     */
+    protected $hasCaption;
+
+    /**
+     * @var string|boolean $navigationSkin The navigation Skin This should be one of the following:
+     * 'thumbnail01' until 'thumbnail10'
+     * 'bullet01' until 'bullet10'
+     * If you set false no navigation will be applied to the slider.
+     * 
+     */
+    public $navigationSkin = 'thumbnail01';
+
+    /**
+     * @var string|boolean $arrowSkin The navigation Skin This should be one of the following:
+     * 'arrow01' until 'arrow10'
+     * If you set false no navigation will be applied to the slider.
+     * 
+     */
+    public $arrowSkin = 'arrow01';
+
+    /**
+     * @var array $thumbnailSkins The available thumbnail skins.
+     */
+    protected $thumnailSkins = [
+        'thumbnail01' => [],
+        'thumbnail02' => [],
+        'thumbnail03' => [],
+        'thumbnail04' => [],
+        'thumbnail05' => [],
+    ];
+
+    /**
+     * @var array $bulletSkins The available bullet skins.
+     */
+    protected $bulletSkins = [
+        'bullet01' => [],
+        'bullet02' => [],
+        'bullet03' => [],
+        'bullet04' => [],
+        'bullet05' => [],
+    ];
+
+    /**
+     * @var array $arrowSkins The available arrow skins.
+     */
+    protected $arrowSkins = [
+        'arrow01' => [],
+        'arrow02' => [],
+        'arrow03' => [],
+        'arrow04' => [],
+        'arrow05' => [],
+    ];
+
+    /**
+     * @var array $trans We must replace the quotes from the Classes because these are functions.
+     * This will done when the [[$pluginOptions]] were json encoded.
+     */
+    protected $trans = [
+        '"$JssorBulletNavigator$"' => '$JssorBulletNavigator$',
+        '"$JssorArrowNavigator$"' => '$JssorArrowNavigator$',
+        '"$JssorThumbnailNavigator$"' => '$JssorThumbnailNavigator$',
+        '"$JssorSlideshowRunner$"' => '$JssorSlideshowRunner$',
+        '"$JssorCaptionSlider$"' => '$JssorCaptionSlider$'
+    ];
+
+    /**
+     * @var boolean $raw If you want to write your custom html for the slider 
+     * you must run the widget with [[begin()]] and [[end()]]
+     * All propertys except [[pluginOptions]], [[responsive]], [[images]], [[options]], [[sliderWidth]], [[sliderHeight]] are ignored.
+     */
+    protected static $raw = false;
+
+    /**
+     * @inheritdoc
+     */
+    public static function begin($config = [])
+    {
+        static::$raw = true;
+        parent::begin($config);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
-        if (!isset($this->options['id'])) {
-            $this->options['id'] = $this->getId();
+
+
+        $this->hasCaption = array_key_exists('$CaptionSliderOptions', $this->pluginOptions) ? true : false;
+
+        if (static::$raw === false) {
+            $customCssClass = isset($this->containerOptions['class']) ? ' ' . $this->containerOptions['class'] : '';
+
+            //Set the css classes
+            $this->containerOptions = [];
+            $this->containerOptions['style'] = "width:{$this->sliderWidth}px; height:{$this->sliderHeight}px";
+            $this->containerOptions['class'] = "slider-container slider-container-{$this->id}$customCssClass";
         }
-        // open tag
-        echo Html::beginTag('div', $this->options) . '
-                <!-- Slides Container -->';
         
-        if ((!empty($this->images))) {
-            echo $this->renderImages();
-        }
+        $this->containerOptions['id'] = $this->getId();
+
+        // open tag
+        echo '<!-- Slider Container -->';
+        echo Html::beginTag('div', $this->containerOptions);
+                
     }
 
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
-        // close tag
-        echo Html::endTag('div');
+        $view = $this->getView();
+        //boxsizing settings
 
-        // get id
-        $id = $this->options['id'];
+        $view->registerCss('.thumbnavigator div,.w,.p,.c{box-sizing: content-box}');
 
         // register Assets
-        $view = $this->getView();
         SliderAsset::register($view);
 
-        //We must replace the quotes from the Classes because these are functions.
-
-        $trans = [
-            '"$JssorBulletNavigator$"' => '$JssorBulletNavigator$',
-            '"$JssorArrowNavigator$"' => '$JssorArrowNavigator$',
-            '"$JssorThumbnailNavigator$"' => '$JssorThumbnailNavigator$',
-            '"$JssorSlideshowRunner$"' => '$JssorSlideshowRunner$',
-            '"$JssorCaptionSlider$"' => '$JssorCaptionSlider$',
-        ];
-
-        // plugin init
-        $pluginOptions = empty($this->pluginOptions) ? '' : strtr(Json::encode($this->pluginOptions), $trans);
-
-        $js = "var $id = new \$JssorSlider$('$id', $pluginOptions);";
-        $view->registerJs($js . ";\n");
+        $id = $this->getId();
 
         // responsive init
         if ($this->responsive) {
-            $js2 = "
+            handleResponsive();
+        }
+
+        //$pluginOptions = $this->pluginOptions;
+        //It is important that this comes before handleCaption() call because handleCaption() must manipulate the json encoded string
+        $this->pluginOptions = empty($this->pluginOptions) ? '' : strtr(Json::encode($this->pluginOptions), $this->trans);
+
+        if ($this->hasCaption) {
+            handleCaption();
+        }
+
+        $this->js .= "var $id = new \$JssorSlider$('$id', $this->pluginOptions);";
+
+        $view->registerJs($this->js . ";\n");
+
+        if (!static::$raw) {
+            echo $this->renderSlider();
+        }
+
+        echo Html::endTag('div');
+        echo '<!-- Slider Container End -->';
+    }
+
+    /**
+     * Handle the js for caption transitions and correct the strings in [[$pluginOptions]]
+     */
+    protected function handleCaption()
+    {
+
+        $this->js .= ' var _CaptionTransitions = [];
+            _CaptionTransitions["L"] = { $Duration: 900, x: 0.6, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["R"] = { $Duration: 900, x: -0.6, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["T"] = { $Duration: 900, y: 0.6, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["B"] = { $Duration: 900, y: -0.6, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["ZMF|10"] = { $Duration: 900, $Zoom: 11, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 };
+            _CaptionTransitions["RTT|10"] = { $Duration: 900, $Zoom: 11, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInExpo }, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["RTT|2"] = { $Duration: 900, $Zoom: 3, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseInQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInQuad }, $Opacity: 2, $Round: { $Rotate: 0.5} };
+            _CaptionTransitions["RTTL|BR"] = { $Duration: 900, x: -0.6, y: -0.6, $Zoom: 11, $Rotate: 1, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Zoom: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInCubic }, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["CLIP|LR"] = { $Duration: 900, $Clip: 15, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic }, $Opacity: 2 };
+            _CaptionTransitions["MCLIP|L"] = { $Duration: 900, $Clip: 1, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic} };
+            _CaptionTransitions["MCLIP|R"] = { $Duration: 900, $Clip: 2, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic} };';
+
+        $this->pluginOptions = strtr($this->pluginOptions, ['"CaptionTransitionsPlaceholder"' => '_CaptionTransitions']);
+    }
+
+    /**
+     * Makes all necessary settings when [[$responsive]] property is true 
+     */
+    protected function handleResponsive()
+    {
+        $id = $this->getId();
+        $this->js .= "
             function " . $id . "ScaleSlider() {
                 var parentWidth = $id.\$Elmt.parentNode.clientWidth;
                 if (parentWidth)
@@ -105,16 +256,17 @@ class SliderWidget extends Widget
             if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
                 $(window).bind('resize', " . $id . "ScaleSlider);
             }";
-            $view->registerJs($js2 . ";\n");
-        }
     }
 
     /**
-     * Renders the images for this slider
-     * @param 
+     * Render the slider html for the given configuration and skin.
+     * This function is only called if [[raw]] is false.
      */
-    protected function renderImages()
+    protected function renderSlider()
     {
-        
+        return $this->render('imageGallery1', [
+                'images' => $this->images
+        ]);
     }
+
 }
