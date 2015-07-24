@@ -58,10 +58,10 @@ gulp.task('build-js', function () {
 
 gulp.task('build-css', function () {
     if (gutil.env.type === 'production') {
-        gulp.src(['build/less/slider.less'])
+        gulp.src(['build/less/*.less'])
             .pipe(less())
             .pipe(minifyCSS())
-            .pipe(rename('all.min.css'))
+           // .pipe(rename('all.min.css'))
             .pipe(gulp.dest('assets/css'));
     } else {
         return gulp.src(['build/less/*.less'])

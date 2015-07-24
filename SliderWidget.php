@@ -257,13 +257,16 @@ class SliderWidget extends Widget
      */
     protected function createSkin()
     {
-        //Set slider container
+        $aid = $this->arrowSkin;
+        $nid = $this->navSkin;
+
+        //Slider container
         $customCssClass = isset($this->containerOptions['class']) ? ' ' . $this->containerOptions['class'] : '';
         $this->containerOptions = [];
         $this->containerOptions['style'] = "width:{$this->sliderWidth}px; height:{$this->sliderHeight}px";
         $this->containerOptions['class'] = "slider-container slider-container-{$this->id}$customCssClass";
 
-        //Set the arrow skin
+        //Arrow skin
         if ($this->arrowSkin) {
             if (array_key_exists($this->arrowSkin, $this->skins)) {
                 if (!isset($this->pluginOptions['$ArrowNavigatorOptions'])) {
@@ -274,11 +277,19 @@ class SliderWidget extends Widget
                     ];
                 }
             } else {
-                throw new InvalidConfigException();
+                $avSkins = [];
+                foreach (array_keys($this->skins) as $skin) {
+                    if ($skin[0] === 'a') {
+                        $avSkins[] .= $skin; 
+                    }
+                }
+                throw new InvalidConfigException("The given arrowSkin does not exist.\n
+                    Available arrow skins: " . implode(',', $avSkins)
+                    );
             }
         }
 
-
+        //Navigation skin (Bullet or Thumbnail)
         if ($this->navSkin) {
             if (array_key_exists($this->navSkin, $this->skins)) {
                 if ($this->navSkin[0] === 'b') {
@@ -304,7 +315,15 @@ class SliderWidget extends Widget
                     }
                 }
             } else {
-                throw new InvalidConfigException();
+                $avSkins = [];
+                foreach (array_keys($this->skins) as $skin) {
+                    if ($skin[0] === 'b' || $skin[0] === 't') {
+                        $avSkins[] .= $skin; 
+                    }
+                }
+                throw new InvalidConfigException("The given navSkin does not exist.\n
+                    Available arrow skins: " . implode(',', $avSkins)
+                    );
             }
         }
     }
