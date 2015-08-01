@@ -3,67 +3,67 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
+/* @var $images array */
+/* @var $data array */
 
-$aId = $this->context->arrowSkin;
-$nId = $this->context->navSkin;
 ?>
 
 
 <!-- Loading Screen -->
-<div u="loading" style="position: absolute; top: 0px; left: 0px;">
-    <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-         background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
-    </div>
-    <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
-         top: 0px; left: 0px;width: 100%;height:100%;">
-    </div>
+<div u="loading" class="jssor-loader-container">
+    <div class="filter"></div>
+    <div class="loader-image"></div>
 </div>
-
 
 
 <!-- Slides Container -->
-<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: <?= $this->context->sliderWidth ?>px; height: <?= $this->context->sliderHeight ?>px; overflow: hidden;">
+<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: <?= $data['slideWidth'] ?>px; height: <?= $data['slideHeight'] ?>px; overflow: hidden;">
     <?php foreach ($images as $image): ?>
         <div>
             <?= Html::img([$image['uri']], ['u' => 'image']) ?>
-            <?= Html:: img(\Yii::$app->image->getThumb($image['uri'], 'small'), ['u' => 'thumb']) ?>
+            <?php if ($data['navSkinId'] && $data['navSkinId'][0] === 't'): ?>
+                <?= Html:: img(\Yii::$app->image->getThumb($image['uri'], 'small'), ['u' => 'thumb']) ?>
+            <?php endif; ?>
         </div>
     <?php endforeach; ?>
-</div>
 
-<?php if ($aId): ?>
+
+<?php if ($data['arrowSkinId']): ?>
     <!--#region Arrow Navigator Skin Begin -->
     <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
     <!-- Arrow Left -->
-    <span u="arrowleft" class="jssor<?= $aId ?>l" style="top: 123px; left: 8px;">
+    <span u="arrowleft" class="jssor<?= $data['arrowSkinId'] ?>l" style="left: <?= $data['arrow']['left'] ?>px;">
     </span>
     <!-- Arrow Right -->
-    <span u="arrowright" class="jssor<?= $aId ?>r" style="top: 123px; right: 8px;">
+    <span u="arrowright" class="jssor<?= $data['arrowSkinId'] ?>r" style="right: <?= $data['arrow']['right'] ?>px;">
     </span>
     <!--#endregion Arrow Navigator Skin End -->
 <?php endif; ?>
+    
+    </div>
 
-<?php if ($nId[0] === 't') : ?>
-    <!-- Thumbnail Navigator Skin 02 Begin -->
-    <div u="thumbnavigator" class="jssor<?= $nId ?>" style="position: absolute; width: 250px; height: 450px; left:0px; bottom: 0px;">
-        <!-- Thumbnail Item Skin Begin -->
-        <div u="slides" style="cursor: move;">
-            <div u="prototype" class="p" style="position: absolute; width: 99px; height: 66px; top: 0; left: 0;">
-                <div class=w><thumbnailtemplate style=" width: 100%; height: 100%; border: none;position:absolute; top: 0; left: 0;"></thumbnailtemplate></div>
-                <div class=c>
+<?php if ($data['navSkinId']): ?>
+    <?php if ($data['navSkinId'][0] === 't') : ?>
+        <!-- thumbnail navigator container -->
+        <div u="thumbnavigator" class="jssor<?= $data['navSkinId'] ?>" style="left: 0px; bottom: 0px; width: <?= $data['thumb']['containerWidth'] ?>px; height: <?= $data['thumb']['containerHeight'] ?>px; ">
+            <!-- Thumbnail Item Skin Begin -->
+            <div u="slides" style="cursor: default;">
+                <div u="prototype" class="p">
+                    <div class=w><div u="thumbnailtemplate" class="t"></div></div>
+                    <div class=c></div>
                 </div>
             </div>
+            <!-- Thumbnail Item Skin End -->
         </div>
-        <!-- Thumbnail Item Skin End -->
-    </div>
-    <!-- Thumbnail Navigator Skin End -->
-<?php elseif ($nId[0] === 'b'): ?>
-    <!--#region Bullet Navigator Skin Begin -->
-    <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
-    <!-- bullet navigator container -->
-    <div u="navigator" class="jssor<?= $nId ?>" style="bottom: 16px; right: 10px;">
-        <!-- bullet navigator item prototype -->
-        <div u="prototype"></div>
-    </div>
-    <!--#endregion Bullet Navigator Skin End -->
+        <!--#endregion Thumbnail Navigator Skin End -->
+    <?php elseif ($data['navSkinId'][0] === 'b'): ?>
+        <!--#region Bullet Navigator Skin Begin -->
+        <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
+        <!-- bullet navigator container -->
+        <div u="navigator" class="jssor<?= $data['navSkinId'] ?>" style="bottom: 16px; right: 10px;">
+            <!-- bullet navigator item prototype -->
+            <div u="prototype"></div>
+        </div>
+        <!--#endregion Bullet Navigator Skin End -->
+    <?php endif; ?>
 <?php endif; ?>

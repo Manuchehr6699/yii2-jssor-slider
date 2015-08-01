@@ -33,17 +33,17 @@ class SliderWidget extends Widget
     /**
      * @var boolean $responsive Show the slider responsive.
      */
-    public $responsive = true;
+    public $responsive = false;
 
     /**
-     * @var array $sliderHeight The height of the slider container.
+     * @var string $sliderWidth The width of the slider container.
      */
-    public $sliderWidth = 600;
+    public $sliderWidth = 700;
 
     /**
-     * @var array $sliderWidth The width of the slider container.
+     * @var string $sliderHeight The height of the slider container.
      */
-    public $sliderHeight = 450;
+    public $sliderHeight = 350;
 
     /**
      * @var array $captionTransitions The transitions how to animate a caption.
@@ -61,6 +61,23 @@ class SliderWidget extends Widget
     public $pluginOptions = [];
 
     /**
+     * @var string|boolean $Id The navigation Skin This should be one of the following:
+     * 't01' until 't10'
+     * 'b01' until 'b10'
+     * If you set false no navigation will be applied to the slider.
+     * 
+     */
+    public $navSkinId = 'b01';
+
+    /**
+     * @var string|boolean $arrowSkinId The navigation Skin This should be one of the following:
+     * 'a01' until 'a10'
+     * If you set false no navigation will be applied to the slider.
+     * 
+     */
+    public $arrowSkinId = 'a01';
+
+    /**
      * @var string $js The javascript code which will be published.
      */
     protected $js = '';
@@ -71,41 +88,366 @@ class SliderWidget extends Widget
     protected $hasCaption;
 
     /**
-     * @var string|boolean $navSkin The navigation Skin This should be one of the following:
-     * 't01' until 't10'
-     * 'b01' until 'b10'
-     * If you set false no navigation will be applied to the slider.
-     * 
+     * @var array $arrowSkins The available arrowSkins.
+     * We use shortnames here for the plugin options that than will merge into the pluginOptions array
+     * -pluginOptions['p'] The plugin options
+     * -pluginOptions['a'] The plugin arrow options
      */
-    public $navSkin;
+    protected static $arrowSkins = [
+        'a01' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a02' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a03' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a04' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a05' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ]
+        ],
+        'a06' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a07' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a08' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a09' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a10' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a11' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a12' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a13' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a14' => [
+            'left' => 0,
+            'right' => 0,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a15' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a16' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a18' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a19' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a20' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a21' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        'a22' => [
+            'left' => 4,
+            'right' => 4,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+    ];
 
     /**
-     * @var string|boolean $arrowSkin The navigation Skin This should be one of the following:
-     * 'a01' until 'a10'
-     * If you set false no navigation will be applied to the slider.
-     * 
+     * @var array $navSkins The available navigation skins.
      */
-    public $arrowSkin;
-
-    /**
-     * @var array $skins The available skins.
-     */
-    protected $skins = [
-        'a01' => [],
-        'a02' => [],
-        'a03' => [],
-        'a04' => [],
-        'a05' => [],
-        'b01' => [],
-        'b02' => [],
-        'b03' => [],
-        'b04' => [],
-        'b05' => [],
-        't01' => [],
-        't02' => [],
-        't03' => [],
-        't04' => [],
-        't05' => [],
+    protected static $navSkins = [
+        'b01' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b02' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b03' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b05' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 15,
+            ],
+        ],
+        'b06' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b07' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b09' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b10' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b11' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b12' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b13' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b14' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b16' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b17' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b18' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b20' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        'b21' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 1,
+                '$SpacingX' => 5,
+            ],
+        ],
+        't01' => [
+            'position' => 'bottom',
+            'containerHeight' => 100,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 3,
+                '$DisplayPieces' => 10,
+                '$ParkingPosition' => 300
+            ],
+        ],
+        't02' => [
+            'position' => 'bottom',
+            'containerHeight' => 100,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 3,
+                '$DisplayPieces' => 10,
+            ],
+        ],
+        't03' => [
+            'position' => 'bottom',
+            'containerHeight' => 100,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        't04' => [
+            'position' => 'left',
+            'containerWidth' => 200,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        't05' => [
+            'position' => 'right',
+            'containerHeight' => 200,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        't06' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        't07' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
+        't08' => [
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 2
+            ],
+        ],
     ];
 
     /**
@@ -119,6 +461,11 @@ class SliderWidget extends Widget
         '"$JssorSlideshowRunner$"' => '$JssorSlideshowRunner$',
         '"$JssorCaptionSlider$"' => '$JssorCaptionSlider$'
     ];
+
+    /**
+     * @var array $data The data for the view File 
+     */
+    protected $data = [];
 
     /**
      * @var boolean $raw If you want to write your custom html for the slider 
@@ -147,7 +494,7 @@ class SliderWidget extends Widget
         $this->hasCaption = array_key_exists('$CaptionSliderOptions', $this->pluginOptions) ? true : false;
 
         if (static::$raw === false) {
-            $this->createSkin();
+            $this->createSlider();
         }
 
         $this->containerOptions['id'] = $this->getId();
@@ -172,14 +519,9 @@ class SliderWidget extends Widget
 
         $id = $this->getId();
 
-        // responsive init
-        if ($this->responsive) {
-            handleResponsive();
-        }
-
         //$pluginOptions = $this->pluginOptions;
         //It is important that this comes before handleCaption() call because handleCaption() must manipulate the json encoded string
-        $this->pluginOptions = empty($this->pluginOptions) ? '' : strtr(Json::encode($this->pluginOptions), $this->trans);
+        $this->pluginOptions = empty($this->pluginOptions) ? '{}' : strtr(Json::encode($this->pluginOptions), $this->trans);
 
         if ($this->hasCaption) {
             handleCaption();
@@ -187,7 +529,12 @@ class SliderWidget extends Widget
 
         $this->js .= "var $id = new \$JssorSlider$('$id', $this->pluginOptions);";
 
-        $view->registerJs($this->js . ";\n");
+        // responsive init
+        if ($this->responsive) {
+            $this->handleResponsive();
+        }
+
+        $view->registerJs($this->js);
 
         if (!static::$raw) {
             echo $this->renderSlider();
@@ -229,7 +576,7 @@ class SliderWidget extends Widget
             function " . $id . "ScaleSlider() {
                 var parentWidth = $id.\$Elmt.parentNode.clientWidth;
                 if (parentWidth)
-                    $id.\$SetScaleWidth(parentWidth-$this->margin_right_responsive);
+                    $id.\$SetScaleWidth(parentWidth);
                 else
                     window.setTimeout(" . $id . "ScaleSlider, 30);
             }
@@ -238,7 +585,7 @@ class SliderWidget extends Widget
 
             if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
                 $(window).bind('resize', " . $id . "ScaleSlider);
-            }";
+            };\n";
     }
 
     /**
@@ -248,82 +595,139 @@ class SliderWidget extends Widget
     protected function renderSlider()
     {
         return $this->render('imageGallery1', [
-                'images' => $this->images
+                'images' => $this->images,
+                'data' => $this->data
         ]);
     }
 
     /**
-     * Do all important settings for the skin
+     * Do all important settings for the skin and the view file
      */
-    protected function createSkin()
+    protected function createSlider()
     {
-        $aid = $this->arrowSkin;
-        $nid = $this->navSkin;
+        $this->data['slideWidth'] = $this->sliderWidth;
+        $this->data['slideHeight'] = $this->sliderHeight;
+        $this->data['arrowSkinId'] = $this->arrowSkinId;
+        $this->data['navSkinId'] = $this->navSkinId;
 
+        $this->createSliderContainer();
+
+        //Slider Arrows
+        if ($this->arrowSkinId) {
+            if (array_key_exists($this->arrowSkinId, self::$arrowSkins)) {
+                $this->createSliderArrow();
+            } else {
+                throw new InvalidConfigException("The arrowSkinId '{$this->arrowSkinId}' does not exist.\n
+                    Available arrow skins: " . implode(',', array_keys(self::$arrowSkins)));
+            }
+        }
+
+        //Slider Navigation (Bullet or Thumbnail)
+        if ($this->navSkinId) {
+            if (array_key_exists($this->navSkinId, self::$navSkins)) {
+                if ($this->navSkinId[0] === 'b') {
+                    $this->createSliderBullet();
+                } elseif ($this->navSkinId[0] === 't') {
+                    $this->createSliderThumb();
+                }
+            } else {
+                throw new InvalidConfigException("The navSkinId '{$this->navSkinId}' does not exist.\n
+                    Available arrow skins: " . implode(',', array_keys(self::$navSkins)));
+            }
+        }
+    }
+
+    /**
+     * Slider Container settings
+     */
+    protected function createSliderContainer()
+    {
         //Slider container
         $customCssClass = isset($this->containerOptions['class']) ? ' ' . $this->containerOptions['class'] : '';
         $this->containerOptions = [];
         $this->containerOptions['style'] = "width:{$this->sliderWidth}px; height:{$this->sliderHeight}px";
         $this->containerOptions['class'] = "slider-container slider-container-{$this->id}$customCssClass";
+    }
 
-        //Arrow skin
-        if ($this->arrowSkin) {
-            if (array_key_exists($this->arrowSkin, $this->skins)) {
-                if (!isset($this->pluginOptions['$ArrowNavigatorOptions'])) {
-                    $this->pluginOptions['$ArrowNavigatorOptions'] = [
-                        '$Class' => '$JssorArrowNavigator$',
-                        '$ChanceToShow' => 2,
-                        '$AutoCenter' => 2,
-                    ];
-                }
-            } else {
-                $avSkins = [];
-                foreach (array_keys($this->skins) as $skin) {
-                    if ($skin[0] === 'a') {
-                        $avSkins[] .= $skin; 
-                    }
-                }
-                throw new InvalidConfigException("The given arrowSkin does not exist.\n
-                    Available arrow skins: " . implode(',', $avSkins)
-                    );
+    /**
+     * Slider Arrows settings
+     */
+    protected function createSliderArrow()
+    {
+
+        $skin = self::$arrowSkins[$this->arrowSkinId];
+        //$this->data['arrow']['top'] = 0;
+        // $this->data['arrow']['top'] = floor($this->data['slideHeight'] / 2);
+        $this->data['arrow']['left'] = $skin['left'];
+        $this->data['arrow']['right'] = $skin['right'];
+        $skin['s']['$Class'] = '$JssorArrowNavigator$';
+        $this->mergeSkinSettings($skin, '$ArrowNavigatorOptions');
+    }
+
+    /**
+     * Slider Bullet settings
+     */
+    protected function createSliderBullet()
+    {
+        $skin = self::$navSkins[$this->navSkinId];
+        $skin['s']['$Class'] = '$JssorBulletNavigator$';
+        $this->mergeSkinSettings($skin, '$BulletNavigatorOptions');
+    }
+
+    /**
+     * Slider Thumb settings
+     */
+    protected function createSliderThumb()
+    {
+        $skin = self::$navSkins[$this->navSkinId];
+        if ($skin['position'] === 'bottom') {
+            $this->data['thumb']['containerWidth'] = $this->sliderWidth;
+            $this->data['thumb']['containerHeight'] = $skin['containerHeight'];
+            $this->data['slideHeight'] = $this->data['slideHeight'] - $skin['containerHeight'];
+            //We must set the Arrow top value
+            if ($this->arrowSkinId) {
+                //$this->data['arrow']['top'] = $this->data['arrow']['top'] - $this->data['thumb']['containerHeight'];
             }
         }
 
-        //Navigation skin (Bullet or Thumbnail)
-        if ($this->navSkin) {
-            if (array_key_exists($this->navSkin, $this->skins)) {
-                if ($this->navSkin[0] === 'b') {
-                    if (!isset($this->pluginOptions['$BulletNavigatorOptions'])) {
-                        $this->pluginOptions['$BulletNavigatorOptions'] = [
-                            '$Class' => '$JssorBulletNavigator$',
-                            '$ChanceToShow' => 2,
-                            '$AutoCenter' => 1,
-                            '$Steps' => 1, //[Optional] Steps to go for each navigation request, default value is 1
-                            '$Lanes' => 1, //[Optional] Specify lanes to arrange items, default value is 1
-                            '$SpacingX' => 10, //[Optional] Horizontal space between each item in pixel, default value is 0
-                            '$SpacingY' => 10, //[Optional] Vertical space between each item in pixel, default value is 0
-                            '$Orientation' => 1
-                        ];
-                    }
-                } elseif ($this->navSkin[0] === 'b') {
-                    if (!isset($this->pluginOptions['$ThumbnailNavigatorOptions'])) {
-                        $this->pluginOptions['$ThumbnailNavigatorOptions'] = [
-                            '$Class' => '$JssorThumbnailNavigator$',
-                            '$ChanceToShow' => 2,
-                            '$AutoCenter' => 3,
-                        ];
-                    }
-                }
+        $skin['s']['$Class'] = '$JssorThumbnailNavigator$';
+        $this->mergeSkinSettings($skin, '$ThumbnailNavigatorOptions');
+    }
+
+    /**
+     * Merge the skin settings from [[arrowSkins]] and [[navSkins]] with [[pluginOptions]]
+     * @param $skin array the skin settings array
+     * @param $skey string the specific key for this skin
+     */
+    protected function mergeSkinSettings($skin, $skey)
+    {
+        if (!empty($skin['p'])) {
+            $this->pluginOptions = array_merge($skin['p'], $this->pluginOptions);
+        }
+
+        if (isset($this->pluginOptions[$skey])) {
+            $this->pluginOptions[$skey] = array_merge($skin['s'], $this->pluginOptions[$skey]);
+        } else {
+            $this->pluginOptions[$skey] = $skin['s'];
+        }
+    }
+
+    /**
+     * Get all skins or the skins from [[name]] That function can be used to get the configuration
+     * and default settings of a skin in another application component. We use it to set default in the Demo Slider.
+     * @param $name string the skin name (eg. 't01')
+     * @return array of the sins
+     */
+    public static function getSkins($skinId = null)
+    {
+        $allSkins = self::$arrowSkins + self::$navSkins;
+        if ($skinId === null) {
+            return $allSkins;
+        } else {
+            if (array_key_exists($skinId, $allSkins)) {
+                return $allSkins[$skinId];
             } else {
-                $avSkins = [];
-                foreach (array_keys($this->skins) as $skin) {
-                    if ($skin[0] === 'b' || $skin[0] === 't') {
-                        $avSkins[] .= $skin; 
-                    }
-                }
-                throw new InvalidConfigException("The given navSkin does not exist.\n
-                    Available arrow skins: " . implode(',', $avSkins)
-                    );
+                throw new InvalidConfigException();
             }
         }
     }
