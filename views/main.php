@@ -5,7 +5,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $images array */
 /* @var $data array */
-
 ?>
 
 
@@ -17,7 +16,7 @@ use yii\helpers\Html;
 
 
 <!-- Slides Container -->
-<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: <?= $data['slideWidth'] ?>px; height: <?= $data['slideHeight'] ?>px; overflow: hidden;">
+<div u="slides" style="cursor: move; position: absolute; <?= $data['slidePosition'] ?> width: <?= $data['slideWidth'] ?>px; height: <?= $data['slideHeight'] ?>px; overflow: hidden;">
     <?php foreach ($images as $image): ?>
         <div>
             <?= Html::img([$image['uri']], ['u' => 'image']) ?>
@@ -28,31 +27,25 @@ use yii\helpers\Html;
     <?php endforeach; ?>
 
 
-<?php if ($data['arrowSkinId']): ?>
-    <!--#region Arrow Navigator Skin Begin -->
-    <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
-    <!-- Arrow Left -->
-    <span u="arrowleft" class="jssor<?= $data['arrowSkinId'] ?>l" style="left: <?= $data['arrow']['left'] ?>px;">
-    </span>
-    <!-- Arrow Right -->
-    <span u="arrowright" class="jssor<?= $data['arrowSkinId'] ?>r" style="right: <?= $data['arrow']['right'] ?>px;">
-    </span>
-    <!--#endregion Arrow Navigator Skin End -->
-<?php endif; ?>
-    
-    </div>
+    <?php if ($data['arrowSkinId']): ?>
+        <!--#region Arrow Navigator Skin Begin -->
+        <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
+        <!-- Arrow Left -->
+        <span u="arrowleft" class="jssor<?= $data['arrowSkinId'] ?>l" style="left: <?= $data['arrow']['left'] ?>px;">
+        </span>
+        <!-- Arrow Right -->
+        <span u="arrowright" class="jssor<?= $data['arrowSkinId'] ?>r" style="right: <?= $data['arrow']['right'] ?>px;">
+        </span>
+        <!--#endregion Arrow Navigator Skin End -->
+    <?php endif; ?>
+</div>
 
 <?php if ($data['navSkinId']): ?>
     <?php if ($data['navSkinId'][0] === 't') : ?>
         <!-- thumbnail navigator container -->
-        <div u="thumbnavigator" class="jssor<?= $data['navSkinId'] ?>" style="left: 0px; bottom: 0px; width: <?= $data['thumb']['containerWidth'] ?>px; height: <?= $data['thumb']['containerHeight'] ?>px; ">
+        <div u="thumbnavigator" class="jssor<?= $data['navSkinId'] ?>" style="width: <?= $data['thumb']['containerWidth'] ?>px; height: <?= $data['thumb']['containerHeight'] ?>px; ">
             <!-- Thumbnail Item Skin Begin -->
-            <div u="slides" style="cursor: default;">
-                <div u="prototype" class="p">
-                    <div class=w><div u="thumbnailtemplate" class="t"></div></div>
-                    <div class=c></div>
-                </div>
-            </div>
+            <?= $this->render('thumb_templates/' . $data['template'], ['data' => $data]) ?>
             <!-- Thumbnail Item Skin End -->
         </div>
         <!--#endregion Thumbnail Navigator Skin End -->

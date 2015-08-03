@@ -61,9 +61,9 @@ class SliderWidget extends Widget
     public $pluginOptions = [];
 
     /**
-     * @var string|boolean $Id The navigation Skin This should be one of the following:
-     * 't01' until 't10'
+     * @var string|boolean $Id The navigation Skin (Bullets or Thumbnails) This should be one of the following:
      * 'b01' until 'b10'
+     * 't01' until 't10'
      * If you set false no navigation will be applied to the slider.
      * 
      */
@@ -72,7 +72,7 @@ class SliderWidget extends Widget
     /**
      * @var string|boolean $arrowSkinId The navigation Skin This should be one of the following:
      * 'a01' until 'a10'
-     * If you set false no navigation will be applied to the slider.
+     * If you set false no arrows will be applied to the slider.
      * 
      */
     public $arrowSkinId = 'a01';
@@ -91,7 +91,7 @@ class SliderWidget extends Widget
      * @var array $arrowSkins The available arrowSkins.
      * We use shortnames here for the plugin options that than will merge into the pluginOptions array
      * -pluginOptions['p'] The plugin options
-     * -pluginOptions['a'] The plugin arrow options
+     * -pluginOptions['s'] The specific plugin options (here the arrow option)
      */
     protected static $arrowSkins = [
         'a01' => [
@@ -167,8 +167,8 @@ class SliderWidget extends Widget
             ],
         ],
         'a10' => [
-            'left' => 4,
-            'right' => 4,
+            'left' => 0,
+            'right' => 0,
             'p' => [],
             's' => [
                 '$AutoCenter' => 2
@@ -265,7 +265,10 @@ class SliderWidget extends Widget
     ];
 
     /**
-     * @var array $navSkins The available navigation skins.
+     * @var array $navSkins The available navSkins (bullets or thumbnails).
+     * We use shortnames here for the plugin options that than will merge into the pluginOptions array
+     * -pluginOptions['p'] The plugin options
+     * -pluginOptions['s'] The specific plugin options (here the bullet or thumbnail option)
      */
     protected static $navSkins = [
         'b01' => [
@@ -388,64 +391,119 @@ class SliderWidget extends Widget
             ],
         ],
         't01' => [
+            'template' => 't01',
             'position' => 'bottom',
             'containerHeight' => 100,
+            'calcSlide' => true,
             'p' => [],
             's' => [
                 '$AutoCenter' => 3,
                 '$DisplayPieces' => 10,
-                '$ParkingPosition' => 300
+                '$ParkingPosition' => 360,
+                '$SpacingX' => 8,
             ],
         ],
         't02' => [
+            'template' => 't02',
+            'position' => 'left',
+            'containerWidth' => 240,
+            'calcSlide' => true,
+            'p' => [],
+            's' => [
+                '$ChanceToShow' => 2,
+                '$Lanes' => 2, //[Optional] Specify lanes to arrange thumbnails, default value is 1
+                '$SpacingX' => 14, //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+                '$SpacingY' => 12, //[Optional] Vertical space between each thumbnail in pixel, default value is 0
+                '$DisplayPieces' => 6, //[Optional] Number of pieces to display, default value is 1
+                '$ParkingPosition' => 156, //[Optional] The offset position to park thumbnail
+                '$Orientation' => 2
+            ],
+        ],
+        't03' => [
+            'template' => 't03',
+            'position' => 'bottom',
+            'containerHeight' => 60,
+            'calcSlide' => false,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 3, //[Optional] Auto center thumbnail items in the thumbnail navigator container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 3
+                '$Lanes' => 1, //[Optional] Specify lanes to arrange thumbnails, default value is 1
+                '$SpacingX' => 3, //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+                '$SpacingY' => 3, //[Optional] Vertical space between each thumbnail in pixel, default value is 0
+                '$DisplayPieces' => 9, //[Optional] Number of pieces to display, default value is 1
+                '$ParkingPosition' => 260, //[Optional] The offset position to park thumbnail
+                '$Orientation' => 1, //[Optional] Orientation to arrange thumbnails, 1 horizental, 2 vertical, default value is 1
+                '$DisableDrag' => false                            //[Optional] Disable drag or not, default value is false
+            ],
+        ],
+        't04' => [
+            'template' => 't04',
             'position' => 'bottom',
             'containerHeight' => 100,
+            'calcSlide' => false,
+            'p' => [],
+            's' => [
+                '$AutoCenter' => 0,
+                'SpacingX' => 3,
+                'SpacingY' => 3,
+                '$ParkingPosition' => 260,
+                '$DisplayPieces' => 9,
+            ],
+        ],
+        't05' => [
+            'template' => 't05',
+            'position' => 'bottom',
+            'containerHeight' => 100,
+            'calcSlide' => true,
             'p' => [],
             's' => [
                 '$AutoCenter' => 3,
                 '$DisplayPieces' => 10,
-            ],
-        ],
-        't03' => [
-            'position' => 'bottom',
-            'containerHeight' => 100,
-            'p' => [],
-            's' => [
-                '$AutoCenter' => 2
-            ],
-        ],
-        't04' => [
-            'position' => 'left',
-            'containerWidth' => 200,
-            'p' => [],
-            's' => [
-                '$AutoCenter' => 2
-            ],
-        ],
-        't05' => [
-            'position' => 'right',
-            'containerHeight' => 200,
-            'p' => [],
-            's' => [
-                '$AutoCenter' => 2
+                '$ParkingPosition' => 300,
+                '$SpacingX' => 8,
             ],
         ],
         't06' => [
+            'template' => 't06',
+            'position' => 'right',
+            'containerWidth' => 240,
+            'calcSlide' => true,
             'p' => [],
             's' => [
-                '$AutoCenter' => 2
+                '$ChanceToShow' => 2,
+                '$Lanes' => 2, //[Optional] Specify lanes to arrange thumbnails, default value is 1
+                '$SpacingX' => 14, //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+                '$SpacingY' => 12, //[Optional] Vertical space between each thumbnail in pixel, default value is 0
+                '$DisplayPieces' => 6, //[Optional] Number of pieces to display, default value is 1
+                '$ParkingPosition' => 156, //[Optional] The offset position to park thumbnail
+                '$Orientation' => 2
             ],
         ],
         't07' => [
+            'template' => 't07',
+            'position' => 'bottom',
+            'containerHeight' => 100,
+            'calcSlide' => true,
             'p' => [],
             's' => [
-                '$AutoCenter' => 2
+                '$AutoCenter' => 3,
+                '$DisplayPieces' => 10,
+                '$ParkingPosition' => 360,
+                '$SpacingX' => 8,
             ],
         ],
         't08' => [
+            'template' => 't08',
+            'position' => 'bottom',
+            'containerHeight' => 60,
+            'calcSlide' => true,
             'p' => [],
             's' => [
-                '$AutoCenter' => 2
+                '$AutoCenter' => 3,
+                '$DisplayPieces' => 7,
+                '$ParkingPosition' => 219,
+                '$SpacingX' => 15,
+                '$SpacingY' => 15,
             ],
         ],
     ];
@@ -499,8 +557,8 @@ class SliderWidget extends Widget
 
         $this->containerOptions['id'] = $this->getId();
 
-        // open tag
-        echo '<!-- Slider Container -->';
+// open tag
+        echo '<!-- Slider Container Begin -->';
         echo Html::beginTag('div', $this->containerOptions);
     }
 
@@ -510,17 +568,17 @@ class SliderWidget extends Widget
     public function run()
     {
         $view = $this->getView();
-        //boxsizing settings
+//boxsizing settings
 
         $view->registerCss('.thumbnavigator div,.w,.p,.c{box-sizing: content-box}');
 
-        // register Assets
+// register Assets
         SliderAsset::register($view);
 
         $id = $this->getId();
 
-        //$pluginOptions = $this->pluginOptions;
-        //It is important that this comes before handleCaption() call because handleCaption() must manipulate the json encoded string
+//$pluginOptions = $this->pluginOptions;
+//It is important that this comes before handleCaption() call because handleCaption() must manipulate the json encoded string
         $this->pluginOptions = empty($this->pluginOptions) ? '{}' : strtr(Json::encode($this->pluginOptions), $this->trans);
 
         if ($this->hasCaption) {
@@ -529,7 +587,7 @@ class SliderWidget extends Widget
 
         $this->js .= "var $id = new \$JssorSlider$('$id', $this->pluginOptions);";
 
-        // responsive init
+// responsive init
         if ($this->responsive) {
             $this->handleResponsive();
         }
@@ -594,7 +652,9 @@ class SliderWidget extends Widget
      */
     protected function renderSlider()
     {
-        return $this->render('imageGallery1', [
+        $this->data['slidePosition'] = $this->resolvePosition($this->data['slidePosition']);
+
+        return $this->render('main', [
                 'images' => $this->images,
                 'data' => $this->data
         ]);
@@ -607,12 +667,13 @@ class SliderWidget extends Widget
     {
         $this->data['slideWidth'] = $this->sliderWidth;
         $this->data['slideHeight'] = $this->sliderHeight;
+        $this->data['slidePosition'] = ['left' => 0, 'top' => 0];
         $this->data['arrowSkinId'] = $this->arrowSkinId;
         $this->data['navSkinId'] = $this->navSkinId;
 
         $this->createSliderContainer();
 
-        //Slider Arrows
+//Slider Arrows
         if ($this->arrowSkinId) {
             if (array_key_exists($this->arrowSkinId, self::$arrowSkins)) {
                 $this->createSliderArrow();
@@ -622,7 +683,7 @@ class SliderWidget extends Widget
             }
         }
 
-        //Slider Navigation (Bullet or Thumbnail)
+//Slider Navigation (Bullet or Thumbnail)
         if ($this->navSkinId) {
             if (array_key_exists($this->navSkinId, self::$navSkins)) {
                 if ($this->navSkinId[0] === 'b') {
@@ -642,7 +703,7 @@ class SliderWidget extends Widget
      */
     protected function createSliderContainer()
     {
-        //Slider container
+//Slider container
         $customCssClass = isset($this->containerOptions['class']) ? ' ' . $this->containerOptions['class'] : '';
         $this->containerOptions = [];
         $this->containerOptions['style'] = "width:{$this->sliderWidth}px; height:{$this->sliderHeight}px";
@@ -656,8 +717,8 @@ class SliderWidget extends Widget
     {
 
         $skin = self::$arrowSkins[$this->arrowSkinId];
-        //$this->data['arrow']['top'] = 0;
-        // $this->data['arrow']['top'] = floor($this->data['slideHeight'] / 2);
+//$this->data['arrow']['top'] = 0;
+// $this->data['arrow']['top'] = floor($this->data['slideHeight'] / 2);
         $this->data['arrow']['left'] = $skin['left'];
         $this->data['arrow']['right'] = $skin['right'];
         $skin['s']['$Class'] = '$JssorArrowNavigator$';
@@ -680,14 +741,23 @@ class SliderWidget extends Widget
     protected function createSliderThumb()
     {
         $skin = self::$navSkins[$this->navSkinId];
+        //Set default value for thumb positon becauce not all skins need this value
+        $this->data['template'] = $skin['template'];
         if ($skin['position'] === 'bottom') {
             $this->data['thumb']['containerWidth'] = $this->sliderWidth;
             $this->data['thumb']['containerHeight'] = $skin['containerHeight'];
-            $this->data['slideHeight'] = $this->data['slideHeight'] - $skin['containerHeight'];
-            //We must set the Arrow top value
-            if ($this->arrowSkinId) {
-                //$this->data['arrow']['top'] = $this->data['arrow']['top'] - $this->data['thumb']['containerHeight'];
+            if ($skin['calcSlide']) {
+                $this->data['slideHeight'] = $this->data['slideHeight'] - $skin['containerHeight'];
             }
+        } elseif ($skin['position'] === 'left') {
+            $this->data['thumb']['containerHeight'] = $this->sliderHeight;
+            $this->data['thumb']['containerWidth'] = $skin['containerWidth'];
+            $this->data['slideWidth'] = $this->data['slideWidth'] - $skin['containerWidth'];
+            $this->data['slidePosition'] = ['top' => 0, 'left' => $skin['containerWidth']];
+        } elseif ($skin['position'] === 'right') {
+            $this->data['thumb']['containerHeight'] = $this->sliderHeight;
+            $this->data['thumb']['containerWidth'] = $skin['containerWidth'];
+            $this->data['slideWidth'] = $this->data['slideWidth'] - $skin['containerWidth'];
         }
 
         $skin['s']['$Class'] = '$JssorThumbnailNavigator$';
@@ -715,7 +785,7 @@ class SliderWidget extends Widget
     /**
      * Get all skins or the skins from [[name]] That function can be used to get the configuration
      * and default settings of a skin in another application component. We use it to set default in the Demo Slider.
-     * @param $name string the skin name (eg. 't01')
+     * @param $skinId string the skin identifier (eg. 't01')
      * @return array of the sins
      */
     public static function getSkins($skinId = null)
@@ -730,6 +800,21 @@ class SliderWidget extends Widget
                 throw new InvalidConfigException();
             }
         }
+    }
+
+    /**
+     * Helper function to convert a position array to a correct style attribute string.
+     * @param $positions array the position array
+     * @return string
+     */
+    protected function resolvePosition($positions)
+    {
+        $str = '';
+        foreach ($positions as $pos => $val) {
+            $str .= "{$pos}: {$val}px; ";
+        }
+
+        return rtrim($str);
     }
 
 }
