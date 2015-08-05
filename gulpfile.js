@@ -39,15 +39,14 @@ gulp.task('jshint', function () {
 
 gulp.task('build-js', function () {
     if (gutil.env.type === 'production') { //gulp ran with '--type production'
-        return gulp.src(['build/js/*.js'])
-            .pipe(concat('all.min.js'))
-            .pipe(uglify())
-            .pipe(gulp.dest(publicAssetsDir + 'js'));
+        return gulp.src(['build/js/jssor.slider.mini.js'])
+            //.pipe(concat('all.min.js'))
+            //.pipe(uglify())
+            .pipe(gulp.dest('assets/js'));
         
     } else {
-         return gulp.src(['build/js/*.js'])
+         return gulp.src(['build/js/jssor.js', 'build/js/jssor.slider.js'])
             .pipe(sourcemaps.init())
-            .pipe(concat('all.js'))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest('assets/js'));
     }
@@ -60,8 +59,8 @@ gulp.task('build-css', function () {
     if (gutil.env.type === 'production') {
         gulp.src(['build/less/*.less'])
             .pipe(less())
+            .pipe(concat('all.min.css'))
             .pipe(minifyCSS())
-           // .pipe(rename('all.min.css'))
             .pipe(gulp.dest('assets/css'));
     } else {
         return gulp.src(['build/less/*.less'])

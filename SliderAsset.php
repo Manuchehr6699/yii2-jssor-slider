@@ -17,18 +17,6 @@ use yii\web\AssetBundle;
  */
 class SliderAsset extends AssetBundle
 {
-
-    public $js = [
-        //'js/jssor.slider.mini.js',
-        'js/jssor.js',
-        'js/jssor.slider.js'
-    ];
-    public $css = [
-        'css/slider.css',
-        'css/arrows.css',
-        'css/bullets.css',
-        'css/thumbnails.css'
-    ];
     public $depends = [
         'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapAsset',
@@ -37,6 +25,19 @@ class SliderAsset extends AssetBundle
     public function init()
     {
         $this->sourcePath = __DIR__ . '/assets';
+        
+        $this->js = YII_DEBUG ? [
+            'js/jssor.js',
+            'js/jssor.slider.js'
+        ] : ['js/jssor.slider.mini.js'];
+
+        $this->css = YII_DEBUG ? [
+            'css/slider.css',
+            'css/arrows.css',
+            'css/bullets.css',
+            'css/thumbnails.css'
+            ] : ['css/all.min.css'];
+
         parent::init();
     }
 
