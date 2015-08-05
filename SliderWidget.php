@@ -509,11 +509,12 @@ class SliderWidget extends Widget
         't09' => [
             'template' => 't09',
             'position' => 'left',
-            'containerWidth' => 120,
+            'containerWidth' => 140,
             'calcSlide' => true,
             'p' => [],
             's' => [
                 '$ChanceToShow' => 2,
+                '$AutoCenter' => 3,
                 '$Lanes' => 1, //[Optional] Specify lanes to arrange thumbnails, default value is 1
                 '$SpacingX' => 12, //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
                 '$SpacingY' => 12, //[Optional] Vertical space between each thumbnail in pixel, default value is 0
@@ -569,6 +570,8 @@ class SliderWidget extends Widget
 
         if (static::$raw === false) {
             $this->createSlider();
+        } else {
+            $this->createSliderContainer();
         }
 
         $this->containerOptions['id'] = $this->getId();
