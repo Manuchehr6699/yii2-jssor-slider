@@ -506,6 +506,22 @@ class SliderWidget extends Widget
                 '$SpacingY' => 15,
             ],
         ],
+        't09' => [
+            'template' => 't09',
+            'position' => 'left',
+            'containerWidth' => 120,
+            'calcSlide' => true,
+            'p' => [],
+            's' => [
+                '$ChanceToShow' => 2,
+                '$Lanes' => 1, //[Optional] Specify lanes to arrange thumbnails, default value is 1
+                '$SpacingX' => 12, //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+                '$SpacingY' => 12, //[Optional] Vertical space between each thumbnail in pixel, default value is 0
+                '$DisplayPieces' => 6, //[Optional] Number of pieces to display, default value is 1
+                '$ParkingPosition' => 156, //[Optional] The offset position to park thumbnail
+                '$Orientation' => 2
+            ],
+        ],
     ];
 
     /**
