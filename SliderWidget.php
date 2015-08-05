@@ -587,9 +587,6 @@ class SliderWidget extends Widget
     public function run()
     {
         $view = $this->getView();
-//boxsizing settings
-
-        $view->registerCss('.thumbnavigator div,.w,.p,.c;.i;.o{box-sizing: content-box}');
 
 // register Assets
         SliderAsset::register($view);
