@@ -4,6 +4,7 @@
 */
 /*=========================== Slider Container ============================= */
 .slider-container {
+    display:block;
   position: relative;
   overflow: hidden;
   background-color: #24262e;

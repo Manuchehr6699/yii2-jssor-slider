@@ -21,7 +21,7 @@ use yii\helpers\Html;
         <div>
             <?= Html::img([$image['uri']], ['u' => 'image']) ?>
             <?php if ($data['navSkinId'] && $data['navSkinId'][0] === 't'): ?>
-                <?= Html:: img(\Yii::$app->image->getThumb($image['uri'], 'small'), ['u' => 'thumb']) ?>
+                <?= Html:: img(\Yii::$app->image->thumb($image['uri'], 'small'), ['u' => 'thumb']) ?>
             <?php endif; ?>
         </div>
     <?php endforeach; ?>
