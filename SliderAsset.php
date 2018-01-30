@@ -12,7 +12,7 @@ use yii\web\AssetBundle;
 /**
  * Asset bundle for Slider Widget
  *
- * @author Klaus Mergen <klaus.mergen@web.de>
+ * @author Klaus Mergen <kmergenweb@gmail.com>
  * @since 1.0
  */
 class SliderAsset extends AssetBundle

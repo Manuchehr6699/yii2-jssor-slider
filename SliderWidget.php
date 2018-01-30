@@ -15,7 +15,7 @@ use yii\base\InvalidConfigException;
 /**
  * Slider Widget
  *
- * @author Klaus Mergen <klaus.mergen@web.de>
+ * @author Klaus Mergen <kmergenweb@gmail.com>
  * @since 1.0
  */
 class SliderWidget extends Widget
